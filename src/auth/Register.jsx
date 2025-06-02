@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useAuth } from "./AuthContext";
-import { NavLink, Link } from "react-router"
+import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 
 /** A form that allows users to register for a new account */
 export default function Register() {
   const { register } = useAuth();
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const tryRegister = async (formData) => {
     const username = formData.get("username");
@@ -13,9 +15,7 @@ export default function Register() {
     try {
       await register({ username, password });
       // how to set the page to activities without using "setPage?"
-      return (
-        <Link to="/"></Link> // I dont think this is right...
-      );
+        navigate("/");
     } catch (e) {
       setError(e.message);
     }
@@ -36,9 +36,9 @@ export default function Register() {
         <button>Register</button>
         {error && <output>{error}</output>}
       </form>
-      <NavLink to="/login">
+      <Link to="/login">
         Already have an account? Log in here.
-      </NavLink>
+      </Link>
     </>
   );
 }
